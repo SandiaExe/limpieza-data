@@ -1,0 +1,4 @@
+[core]
+    remote = mi_local
+['remote "mi_local"']
+    url = /home/sandia/dvc_remotes/metsyn_project
