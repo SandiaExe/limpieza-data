@@ -20,7 +20,7 @@ def apply_scientific_imputation(method="knn"):
     print(f"Dataset consolidado cargado. Filas: {df.shape[0]} | Aplicando {method.upper()}...")
     
     # Variables clínicas esenciales propensas a nulos
-    cols_clinicas = ['perabd', 'glu', 'ct', 'trig', 'hdl', 'ldl', 'presion_sis', 'presion_dia', 'imc', 'hb', 'plaq', 'leuc']
+    cols_clinicas = ['edad', 'perabd', 'glu', 'ct', 'trig', 'hdl', 'ldl', 'presion_sis', 'presion_dia', 'imc', 'hb', 'plaq', 'leuc']
     
     X_incomplete = df[cols_clinicas].values
     

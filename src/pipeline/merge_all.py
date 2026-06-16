@@ -22,9 +22,27 @@ def merge_all_periods():
         print("Error: No se encontraron archivos intermedios normalizados.")
         return
         
-    # Unificar todas las matrices anuales respetando las columnas compartidas
+    # 1. Unificar todas las matrices anuales
     consolidated_df = pd.concat(datasets, ignore_index=True)
     
+    # 2. CORRECCIÓN: Eliminar filas completamente duplicadas si existen (eran, pero queria eliminarlas)
+    initial_rows = consolidated_df.shape[0]
+    consolidated_df = consolidated_df.drop_duplicates()
+    final_rows = consolidated_df.shape[0]
+
+    # -----------------------------------------------------------------
+    # NUEVA CORRECCIÓN: Rellenar nulos de antecedentes con 0 (Ausencia de enfermedad) (Esto es un problema de la data de 2021)
+    # -----------------------------------------------------------------
+    if 'antHTa' in consolidated_df.columns and 'antDM' in consolidated_df.columns:
+        consolidated_df['antHTa'] = consolidated_df['antHTa'].fillna(0).astype(int)
+        consolidated_df['antDM'] = consolidated_df['antDM'].fillna(0).astype(int)
+        print("-> ¡Éxito! Nulos en antecedentes médicos de 2021 rellenados con 0 (Sano).")
+    # -----------------------------------------------------------------
+    
+    if initial_rows != final_rows:
+        print(f"-> ¡Limpieza exitosa! Se eliminaron {initial_rows - final_rows} filas duplicadas.")
+    
+    # 3. Guardar el archivo limpio en la zona procesada
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     consolidated_df.to_csv(output_path, index=False)
     

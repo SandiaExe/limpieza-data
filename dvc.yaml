@@ -68,3 +68,15 @@ stages:
       - src/pipeline/impute_data.py
     outs:
       - data/processed/imputed_versions/dataset_clean_missforest.csv
+      
+  feature_engineering:
+      cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/feature_engineering.py
+      deps:
+        - data/processed/imputed_versions/dataset_clean_mice.csv
+        - data/processed/imputed_versions/dataset_clean_knn.csv
+        - data/processed/imputed_versions/dataset_clean_missforest.csv
+        - src/pipeline/feature_engineering.py
+      outs:
+        - data/processed/final_datasets/dataset_final_mice.csv
+        - data/processed/final_datasets/dataset_final_knn.csv
+        - data/processed/final_datasets/dataset_final_missforest.csv
