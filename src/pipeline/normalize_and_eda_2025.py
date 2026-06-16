@@ -44,7 +44,7 @@ def normalize_and_eda_2025():
     missing_pct = missing_pct.sort_values(ascending=False)
     sns.barplot(x=missing_pct.values, y=missing_pct.index, palette="Dark2")
     plt.title("Ausencia Crítica de Variables Clínicas (Año 2025)")
-    plt.xlabel("% de Valores Nulos (Evidencia de Pérdida de Variable 'perabd')") [cite: 37]
+    plt.xlabel("% de Valores Nulos (Evidencia de Pérdida de Variable 'perabd')")
     plt.tight_layout()
     plt.savefig(os.path.join(output_plot_dir, "missing_data_2025.png"))
     plt.close()

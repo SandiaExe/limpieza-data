@@ -65,8 +65,8 @@ def normalize_and_eda_2024():
     # Gráfico B: Scatter Plot Presión Arterial Rescatada
     plt.figure(figsize=(8, 5))
     sns.scatterplot(data=df.dropna(subset=['presion_sis', 'presion_dia']), x='presion_dia', y='presion_sis', alpha=0.6, color="purple")
-    plt.axhline(130, color="crimson", linestyle="--", label="Umbral Sistólica (≥130 mmHg)") [cite: 23]
-    plt.axvline(85, color="crimson", linestyle=":", label="Umbral Diastólica (≥85 mmHg)") [cite: 23]
+    plt.axhline(130, color="crimson", linestyle="--", label="Umbral Sistólica (≥130 mmHg)")
+    plt.axvline(85, color="crimson", linestyle=":", label="Umbral Diastólica (≥85 mmHg)")
     plt.title("Presión Arterial Clínicamente Rescatada (Año 2024)")
     plt.xlabel("Presión Diastólica (mmHg)")
     plt.ylabel("Presión Sistólica (mmHg)")

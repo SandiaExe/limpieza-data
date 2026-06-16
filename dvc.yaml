@@ -1,0 +1,70 @@
+stages:
+  # 1. ETAPA DE NORMALIZACIÓN ANUAL
+  normalize_2021:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/eda_and_clean_2021.py
+    deps:
+      - data/raw/metsyn_2021.csv
+      - src/pipeline/eda_and_clean_2021.py
+    outs:
+      - data/interim/metsyn_2021_normalizado.csv
+
+  normalize_2023:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/normalize_and_eda_2023.py
+    deps:
+      - data/raw/metsyn_2023.csv
+      - src/pipeline/normalize_and_eda_2023.py
+    outs:
+      - data/interim/metsyn_2023_normalizado.csv
+
+  normalize_2024:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/normalize_and_eda_2024.py
+    deps:
+      - data/raw/metsyn_2024.csv
+      - src/pipeline/normalize_and_eda_2024.py
+    outs:
+      - data/interim/metsyn_2024_normalizado.csv
+
+  normalize_2025:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/normalize_and_eda_2025.py
+    deps:
+      - data/raw/metsyn_2025.csv
+      - src/pipeline/normalize_and_eda_2025.py
+    outs:
+      - data/interim/metsyn_2025_normalizado.csv
+
+  # 2. ETAPA DE CONSOLIDACIÓN
+  merge_all_periods:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/merge_all.py
+    deps:
+      - data/interim/metsyn_2021_normalizado.csv
+      - data/interim/metsyn_2023_normalizado.csv
+      - data/interim/metsyn_2024_normalizado.csv
+      - data/interim/metsyn_2025_normalizado.csv
+      - src/pipeline/merge_all.py
+    outs:
+      - data/processed/consolidated_dataset.csv
+
+  # 3. ETAPAS DE IMPUTACIÓN CIENTÍFICA (PROPUESTAS GICC)
+  imputation_mice:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/impute_data.py mice
+    deps:
+      - data/processed/consolidated_dataset.csv
+      - src/pipeline/impute_data.py
+    outs:
+      - data/processed/imputed_versions/dataset_clean_mice.csv
+
+  imputation_knn:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/impute_data.py knn
+    deps:
+      - data/processed/consolidated_dataset.csv
+      - src/pipeline/impute_data.py
+    outs:
+      - data/processed/imputed_versions/dataset_clean_knn.csv
+
+  imputation_missforest:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/impute_data.py missforest
+    deps:
+      - data/processed/consolidated_dataset.csv
+      - src/pipeline/impute_data.py
+    outs:
+      - data/processed/imputed_versions/dataset_clean_missforest.csv

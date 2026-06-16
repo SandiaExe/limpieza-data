@@ -1,2 +1,5 @@
 metsyn_dataset.xlsx
 .vscode
+.dvc
+data/interim/
+data/processed/

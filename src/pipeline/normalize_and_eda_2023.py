@@ -53,7 +53,7 @@ def normalize_and_eda_2023():
     # Gráfico B: Distribución de Triglicéridos (Línea base pre-imputación)
     plt.figure(figsize=(8, 4))
     sns.histplot(df['trig'].dropna(), kde=True, color="orangered", bins=30)
-    plt.axvline(150, color="darkred", linestyle="--", label="Umbral ATP-III (≥150 mg/dL)") [cite: 21]
+    plt.axvline(150, color="darkred", linestyle="--", label="Umbral ATP-III (≥150 mg/dL)")
     plt.title("Distribución de Triglicéridos - Comunidad USIL (2023)")
     plt.xlabel("Triglicéridos (mg/dL)")
     plt.ylabel("Cantidad de Pacientes")
