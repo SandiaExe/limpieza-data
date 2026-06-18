@@ -2,13 +2,13 @@ schema: '2.0'
 stages:
   normalize_2021:
     cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
-      src/pipeline/eda_and_clean_2021.py
+      src/pipeline/normalize_and_eda_2021.py
     deps:
     - path: data/raw/metsyn_2021.csv
       hash: md5
       md5: 33ac4872a491f972c38cdd68e3db1a41
       size: 216606
-    - path: src/pipeline/eda_and_clean_2021.py
+    - path: src/pipeline/normalize_and_eda_2021.py
       hash: md5
       md5: 33a4ba7ce7d463568b65fece73ec098f
       size: 3106
@@ -90,21 +90,21 @@ stages:
       size: 235112
     - path: src/pipeline/merge_all.py
       hash: md5
-      md5: 59615743a0ae18b850871a0f8255ef36
-      size: 2492
+      md5: d7943f10bc62fd5db0b4ab582d26937b
+      size: 2473
     outs:
     - path: data/processed/consolidated_dataset.csv
       hash: md5
-      md5: ee031fc25b62453faddc90bca05fcef1
-      size: 1116485
+      md5: 3eee7d92217fc7439d10a139dcbac30b
+      size: 1082125
   imputation_mice:
     cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
       src/pipeline/impute_data.py mice
     deps:
     - path: data/processed/consolidated_dataset.csv
       hash: md5
-      md5: ee031fc25b62453faddc90bca05fcef1
-      size: 1116485
+      md5: 3eee7d92217fc7439d10a139dcbac30b
+      size: 1082125
     - path: src/pipeline/impute_data.py
       hash: md5
       md5: d4145410e4f7821361380419aa0ce9e8
@@ -112,16 +112,16 @@ stages:
     outs:
     - path: data/processed/imputed_versions/dataset_clean_mice.csv
       hash: md5
-      md5: a0384a6051d90b1d29f870c095e54fa3
-      size: 1291023
+      md5: 5164a7783de79f4c669f730a5504bc29
+      size: 1256663
   imputation_knn:
     cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
       src/pipeline/impute_data.py knn
     deps:
     - path: data/processed/consolidated_dataset.csv
       hash: md5
-      md5: ee031fc25b62453faddc90bca05fcef1
-      size: 1116485
+      md5: 3eee7d92217fc7439d10a139dcbac30b
+      size: 1082125
     - path: src/pipeline/impute_data.py
       hash: md5
       md5: d4145410e4f7821361380419aa0ce9e8
@@ -129,16 +129,16 @@ stages:
     outs:
     - path: data/processed/imputed_versions/dataset_clean_knn.csv
       hash: md5
-      md5: 6cee7f867ebff0cf14b3d3166be63f19
-      size: 1285376
+      md5: 3ec59bc0730883d4855ba9965eb681d3
+      size: 1251016
   imputation_missforest:
     cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
       src/pipeline/impute_data.py missforest
     deps:
     - path: data/processed/consolidated_dataset.csv
       hash: md5
-      md5: ee031fc25b62453faddc90bca05fcef1
-      size: 1116485
+      md5: 3eee7d92217fc7439d10a139dcbac30b
+      size: 1082125
     - path: src/pipeline/impute_data.py
       hash: md5
       md5: d4145410e4f7821361380419aa0ce9e8
@@ -146,24 +146,24 @@ stages:
     outs:
     - path: data/processed/imputed_versions/dataset_clean_missforest.csv
       hash: md5
-      md5: 04cf5b951ebc14be2f41f1b3fcd05332
-      size: 1200780
+      md5: 6064842bd7fcdc23171cab47dd9791f3
+      size: 1166140
   feature_engineering:
     cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
       src/pipeline/feature_engineering.py
     deps:
     - path: data/processed/imputed_versions/dataset_clean_knn.csv
       hash: md5
-      md5: 6cee7f867ebff0cf14b3d3166be63f19
-      size: 1285376
+      md5: 3ec59bc0730883d4855ba9965eb681d3
+      size: 1251016
     - path: data/processed/imputed_versions/dataset_clean_mice.csv
       hash: md5
-      md5: a0384a6051d90b1d29f870c095e54fa3
-      size: 1291023
+      md5: 5164a7783de79f4c669f730a5504bc29
+      size: 1256663
     - path: data/processed/imputed_versions/dataset_clean_missforest.csv
       hash: md5
-      md5: 04cf5b951ebc14be2f41f1b3fcd05332
-      size: 1200780
+      md5: 6064842bd7fcdc23171cab47dd9791f3
+      size: 1166140
     - path: src/pipeline/feature_engineering.py
       hash: md5
       md5: c19a0f9c5f0a77d9d9a6da92f3e0c68e
@@ -171,13 +171,42 @@ stages:
     outs:
     - path: data/processed/final_datasets/dataset_final_knn.csv
       hash: md5
-      md5: deb8c2531e994cae3c2ecd79366435e4
-      size: 1345683
+      md5: b5334c53ced9fc097a9646062d3a37f2
+      size: 1311323
     - path: data/processed/final_datasets/dataset_final_mice.csv
       hash: md5
-      md5: 119fc6b1060c8bbf51c0bc8c5fb174e8
-      size: 1351400
+      md5: 8193811cf74ca4bce684cb34360ed751
+      size: 1317040
     - path: data/processed/final_datasets/dataset_final_missforest.csv
       hash: md5
-      md5: fcb2c8871c356726ade52c1f604f8542
-      size: 1259713
+      md5: 340b6f44440d22b1dcafa9ed5e8b497f
+      size: 1225185
+  split_excel:
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python 
+      src/pipeline/split_excel.py
+    deps:
+    - path: metsyn_dataset.xlsx
+      hash: md5
+      md5: e17924a56bcc458ae4680ab4aa1f8af0
+      size: 804315
+    - path: src/pipeline/split_excel.py
+      hash: md5
+      md5: a56702638f300d85178c367ab25ca2d6
+      size: 1711
+    outs:
+    - path: data/raw/metsyn_2021.csv
+      hash: md5
+      md5: 33ac4872a491f972c38cdd68e3db1a41
+      size: 216606
+    - path: data/raw/metsyn_2023.csv
+      hash: md5
+      md5: 41a9974124f9b5dc0d81a5c8319842c7
+      size: 356957
+    - path: data/raw/metsyn_2024.csv
+      hash: md5
+      md5: 3099d327124c652a0abc6e07d184d4b8
+      size: 236464
+    - path: data/raw/metsyn_2025.csv
+      hash: md5
+      md5: ef7b7d8ae94ad3ab8dea51b7aa6c05c4
+      size: 225839

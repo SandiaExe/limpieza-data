@@ -1,10 +1,20 @@
 stages:
+  split_excel:
+      cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/split_excel.py
+      deps:
+        - metsyn_dataset.xlsx
+        - src/pipeline/split_excel.py
+      outs:
+        - data/raw/metsyn_2021.csv
+        - data/raw/metsyn_2023.csv
+        - data/raw/metsyn_2024.csv
+        - data/raw/metsyn_2025.csv
   # 1. ETAPA DE NORMALIZACIÓN ANUAL
   normalize_2021:
-    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/eda_and_clean_2021.py
+    cmd: /home/sandia/miniforge3/envs/limpieza_data/bin/python src/pipeline/normalize_and_eda_2021.py
     deps:
       - data/raw/metsyn_2021.csv
-      - src/pipeline/eda_and_clean_2021.py
+      - src/pipeline/normalize_and_eda_2021.py
     outs:
       - data/interim/metsyn_2021_normalizado.csv
 
